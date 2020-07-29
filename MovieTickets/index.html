@@ -1,0 +1,61 @@
+<!DOCTYPE html >
+<html > 
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <style type="text/css"> button {
+            background-color: rgb(248, 138, 11);
+            border: none;
+            color: white;
+            padding: 3px 5px;
+            margin:1px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: .8em;
+          }</style>
+    </head>
+    <body style="width:80%;margin:auto;background-image: url('background.jpg'); background-repeat: no-repeat; background-attachment: fixed;">
+        <header><h1 style="font-size: 2.5em;font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color:white; background-color: rgba(41, 40, 40, 0.856); text-align: center;padding: 30px;">Most Popular Movies</h1></header>
+        <div id="VueApp" >
+            <br>
+            <div id="cards" style="background-color:rgba(0, 0, 0, 0.774);color:white;margin-top: -20px;text-align:center">               
+                <div v-for="index in 3" class="card" style="text-align:center;background-color: rgba(39, 39, 39, 0.849); width: 18rem;display: inline-block; padding:1rem; border-style: solid; border-width:1px; border-color: grey; margin: 8px;vertical-align: top;align-items: center">
+                    <img v-bind:src="'https://image.tmdb.org/t/p/w500/'+topMovies.results[index].poster_path" class="card-img-top" alt="..." style="height:22rem; border-radius:4px;margin: auto; ">
+                    <div class="card-body">
+                            <h5 class="card-title" style="font-size:1.2em">{{topMovies.results[index].original_title}}</h5>
+                            <p class="card-text">{{topMovies.results[index].overview}}</p>
+                            
+                    </div>
+                    <button v-on:click="orderChild(index)">Child Ticket</button><button v-on:click="orderAdult(index)">Adult Ticket</button>
+                </div>
+            </div>
+                
+            <br>
+            
+            <div id="cart" style="margin-top:2rem"></div>
+                <div v-for="index in 3" >
+                    <div class="cart-row" style="background-image: linear-gradient(rgba(128, 128, 128, 0.705),white);margin:1%;padding:1%" v-if="items[index].adultTickets>0 || items[index].childTickets>0">
+                       <h3 style="font-size: 1.4em"> {{topMovies.results[index].original_title}}</h3>
+                        <h5  v-if="items[index].adultTickets>0" style="background-color: rgba(128, 128, 128, 0.308);padding:1%">Adult's Tickets Ordered: {{items[index].adultTickets}}   &nbsp<button v-on:click="removeAdult(index)">Remove</button></h5><h5 v-if="items[index].childTickets>0" style="background-color: rgba(128, 128, 128, 0.308);padding:1%"> Children's Tickets Ordered:{{items[index].childTickets}}    &nbsp<button v-on:click="removeChild(index)">Remove</button></h5>Subtotal: ${{lineTotal(index)}}    <button v-on:click="removeAll(index)">remove movie</button>
+                        
+                    </div>                
+
+                </div>
+                <div class="adultSubtotal" v-if="adultSubtotal>0" style="background-image: linear-gradient(rgba(128, 128, 128, 0.699),rgba(255, 255, 255, 0.89));margin:1%;padding:1%">Adult Subtotal: ${{adultSubtotal}}</div>
+                <div class="childSubtotal" v-if="childSubtotal>0" style="background-image: linear-gradient(rgba(128, 128, 128, 0.726),rgba(255, 255, 255, 0.897));margin:1%;padding:1%">Child Subtotal: ${{childSubtotal}}</div>
+                <div class="total" v-if="total>0" style="background-image: linear-gradient(rgba(219, 117, 0, 0.671),rgba(255, 178, 89, 0.493));margin:1%;padding:2%;" >Total: ${{total}}</div>
+
+        </div>
+        
+        <footer style="height: 20rem"></footer>
+        
+        <script src="script.js" async defer></script>
+    </body>
+</html>
